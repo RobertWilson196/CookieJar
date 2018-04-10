@@ -1,0 +1,54 @@
+.flex-container-h {
+  display: flex;
+  flex-direction: horizontal;
+  justify-content: center;
+}
+
+.flex-container-v {
+  display: flex;
+  flex-direction: vertical;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.card-counter {
+  width: 80px;
+  height: 80px;
+  background-color: black;
+  color:white;
+  border-color: white;
+  border-width: 1px;
+  border-style: solid;
+  text-align: center;
+  align-content: left;
+  margin: 0 10px 10px 0
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
