@@ -20,6 +20,7 @@ class App extends Component {
         isBust: false,
         isTurn: true,
       },
+      winner: 'Dealer',
     }
     this.dealCard = this.dealCard.bind(this);
   }
@@ -40,6 +41,7 @@ class App extends Component {
         isBust: false,
         isTurn: true,
       },
+      winner: 'Dealer',
     })
   }
 
@@ -64,16 +66,25 @@ class App extends Component {
   dealCard(target) {
 
     let cardValue = (Math.floor(Math.random() * 10)) + 1;
+    let tempWinner = '';
     const tempState = this.state[target];
 
     const checkResults = (target, cardValue) => {
       if(tempState.toMax < 5 && target === "dealer") {
         console.log('dealer end');
+        if(this.state.dealer.total > this.state.player.total &&
+           !this.state.dealer.isBust) {
+          tempWinner = 'Dealer';
+        } else if (this.state.player.total > this.state.dealer.total &&
+        !this.state.player.isBust) {
+          tempWinner = 'Player';
+        } else { tempWinner = 'Draw' };
         this.setState({
           dealer: {
             ...tempState,
             isTurn: false,
           },
+          winner: tempWinner,
         })
         return;
       }
@@ -150,6 +161,9 @@ class App extends Component {
         <div className="flex-container-h">
           <div>You</div>
           <CardCounter value={this.state.player.total} />
+        </div>
+        <div className="flex-container-h">
+          <h1>Winner: {this.state.winner}</h1>
         </div>
         <div className="flex-container-h">
           <button onClick={() => this.reset()}>Restart Game</button>
