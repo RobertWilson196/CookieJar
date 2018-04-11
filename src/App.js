@@ -7,23 +7,51 @@ class App extends Component {
     super();
     this.state = {
       dealer: {
-        total: 2,
+        total: 0,
         cardCount: 0,
+        toMax: 21,
         isBust: false,
         isTurn: false,
       },
       player: { 
-        total: 3,
+        total: 0,
         cardCount: 0,
+        toMax: 21,
         isBust: false,
         isTurn: false,
       },
     }
     this.dealCard = this.dealCard.bind(this);
+    this.checkResults = this.checkResults.bind(this);
+  }
+
+  checkResults(target) {
+    const tempState = this.state[target];
+    tempState.toMax
+    if(tempState.toMax === 0) {
+      console.log('blackjack');
+    } else if (tempState.toMax < 0) { // negative value
+      this.setState({
+        ...tempState,
+        isBust: true,
+      })
+    }
+    console.log('test',tempState.toMax);
   }
 
   dealCard(target) {
-    [target].total += 1;
+    let cardValue = (Math.floor(Math.random() * 10)) + 1;
+    const tempState = this.state[target];
+    this.setState({
+      [target]: {
+        ...tempState,
+        cardCount: tempState.cardCount + 1,
+        total: tempState.total + cardValue,
+        toMax: tempState.toMax - cardValue,
+      }
+    });
+    console.log(cardValue);
+    this.checkResults(target);
   }
 
   render() {
@@ -39,11 +67,24 @@ class App extends Component {
           <CardCounter value={this.state.player.total} />
         </div>
         <div className="flex-container-h">
-          <button onClick={() => console.log('Hit!')}>Hit!</button>
-          <button onClick={() => console.log('Stand')}>Stand</button>
+          <button onClick={() => this.dealCard('player')}>Hit!</button>
+          <button onClick={() => console.log(this.state.player)}>Stand</button>
+          <button onClick={() => this.dealCard('dealer')}>Hit Dealer</button>
         </div>
       </div>
     );
+  }
+  componentDidMount() {
+    let tempValue = (Math.floor(Math.random() * 10)) + 1;
+    this.setState({
+      dealer: {
+        total: tempValue,
+        cardCount: 1,
+        toMax: 21 - tempValue,
+        isBust: false,
+        isTurn: false,
+      },
+    })
   }
 }
 
