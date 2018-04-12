@@ -23,26 +23,30 @@ class App extends Component {
       winner: 'Dealer',
     }
     this.dealCard = this.dealCard.bind(this);
+    this.reset = this.reset.bind(this);
   }
 
   reset() {
+    let tempDealerTotal = (Math.floor(Math.random() * 10)) + 1;
+    let tempPlayerTotal = (Math.floor(Math.random() * 10)) + 1;
+
     this.setState({
       dealer: {
-        total: 0,
-        cardCount: 0,
-        toMax: 21,
+        total: tempDealerTotal,
+        cardCount: 1,
+        toMax: 21 - tempDealerTotal,
         isBust: false,
         isTurn: false,
       },
       player: { 
-        total: 0,
-        cardCount: 0,
-        toMax: 21,
+        total: tempPlayerTotal,
+        cardCount: 1,
+        toMax: 21 - tempPlayerTotal,
         isBust: false,
         isTurn: true,
       },
       winner: 'Dealer',
-    })
+    });
   }
 
   endTurn() {
@@ -70,8 +74,20 @@ class App extends Component {
     const tempState = this.state[target];
 
     const checkResults = (target, cardValue) => {
+      if(target === "dealer" && !this.state.dealer.isBust) {
+        if(tempState.total > this.state.player.total) {
+          tempWinner = 'Dealer';
+          this.setState({
+            dealer: {
+              ...tempState,
+              isTurn: false,
+            },
+            winner: tempWinner,
+          });
+          return;
+        }
+      }
       if(tempState.toMax < 5 && target === "dealer") {
-        console.log('dealer end');
         if(this.state.dealer.total > this.state.player.total &&
            !this.state.dealer.isBust) {
           tempWinner = 'Dealer';
@@ -115,12 +131,13 @@ class App extends Component {
     }
     checkResults(target, cardValue);
   }
-
   render() {
     if(this.state.player.isTurn) {
       return (
         <div>
-          <h1>Cookie Jar</h1>
+          <div className="flex-container-h">
+            <h1>Cookie Jar</h1>
+          </div>
           <div className="flex-container-h">
             <div>Dealer</div>
             <CardCounter value={this.state.dealer.total} />
@@ -137,7 +154,9 @@ class App extends Component {
     } else if(this.state.dealer.isTurn) {
       return (
       <div>
-        <h1>Cookie Jar</h1>
+        <div className="flex-container-h">
+          <h1>Cookie Jar</h1>
+        </div>
         <div className="flex-container-h">
           <div>Dealer</div>
           <CardCounter value={this.state.dealer.total} />
@@ -153,7 +172,9 @@ class App extends Component {
     } else {
       return (
       <div>
-        <h1>Cookie Jar</h1>
+        <div className="flex-container-h">
+          <h1>Cookie Jar</h1>
+        </div>
         <div className="flex-container-h">
           <div>Dealer</div>
           <CardCounter value={this.state.dealer.total} />
@@ -170,6 +191,11 @@ class App extends Component {
         </div>
       </div> );
     }
+  }
+
+  componentDidMount() {
+    console.log('test');
+    this.reset();
   }
 }
 
