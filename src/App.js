@@ -94,7 +94,13 @@ class App extends Component {
         } else if (this.state.player.total > this.state.dealer.total &&
         !this.state.player.isBust) {
           tempWinner = 'Player';
-        } else { tempWinner = 'Draw' };
+        } else { 
+          if(this.state.dealer.cardCount > this.state.player.cardCount) {
+            tempWinner = 'Dealer (more cards)'
+          } else if(this.state.player.cardCount > this.state.dealer.cardCount) {
+            tempWinner = 'Player (more cards)'
+          } else { tempWinner = 'Draw' }
+        };
         this.setState({
           dealer: {
             ...tempState,
@@ -139,12 +145,10 @@ class App extends Component {
             <h1>Cookie Jar</h1>
           </div>
           <div className="flex-container-h">
-            <div>Dealer</div>
-            <CardCounter value={this.state.dealer.total} />
+            <CardCounter name ={"Dealer"} value={this.state.dealer.total} />
           </div>
           <div className="flex-container-h">
-            <div>You</div>
-            <CardCounter value={this.state.player.total} />
+            <CardCounter name ={"You"} value={this.state.player.total} />
           </div>
           <div className="flex-container-h">
             <button onClick={() => this.dealCard('player')}>Hit!</button>
@@ -158,12 +162,10 @@ class App extends Component {
           <h1>Cookie Jar</h1>
         </div>
         <div className="flex-container-h">
-          <div>Dealer</div>
-          <CardCounter value={this.state.dealer.total} />
+          <CardCounter name ={"Dealer"} value={this.state.dealer.total} />
         </div>
         <div className="flex-container-h">
-          <div>You</div>
-          <CardCounter value={this.state.player.total} />
+          <CardCounter name ={"You"} value={this.state.player.total} />
         </div>
         <div className="flex-container-h">
           <button onClick={() => this.dealCard('dealer')}>Hit Dealer</button>
@@ -176,12 +178,10 @@ class App extends Component {
           <h1>Cookie Jar</h1>
         </div>
         <div className="flex-container-h">
-          <div>Dealer</div>
-          <CardCounter value={this.state.dealer.total} />
+          <CardCounter name ={"Dealer"} value={this.state.dealer.total} />
         </div>
         <div className="flex-container-h">
-          <div>You</div>
-          <CardCounter value={this.state.player.total} />
+          <CardCounter name ={"You"} value={this.state.player.total} />
         </div>
         <div className="flex-container-h">
           <h1>Winner: {this.state.winner}</h1>

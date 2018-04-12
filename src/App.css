@@ -21,7 +21,8 @@
   border-style: solid;
   text-align: center;
   align-content: left;
-  margin: 0 10px 10px 0
+  margin: 0 10px 10px 0;
+  padding-top: 10px;
 }
 
 .App {
